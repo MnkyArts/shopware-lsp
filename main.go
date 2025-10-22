@@ -19,6 +19,7 @@ import (
 	"github.com/shopware/shopware-lsp/internal/lsp/diagnostics"
 	"github.com/shopware/shopware-lsp/internal/lsp/hover"
 	"github.com/shopware/shopware-lsp/internal/lsp/reference"
+	"github.com/shopware/shopware-lsp/internal/module"
 	"github.com/shopware/shopware-lsp/internal/php"
 	"github.com/shopware/shopware-lsp/internal/snippet"
 	"github.com/shopware/shopware-lsp/internal/symfony"
@@ -66,6 +67,7 @@ func main() {
 	server.RegisterIndexer(extension.NewExtensionIndexer(cacheDir))
 	server.RegisterIndexer(admin.NewComponentIndexer(cacheDir))
 	server.RegisterIndexer(entity.NewEntityIndexer(cacheDir))
+	server.RegisterIndexer(module.NewModuleIndexer(cacheDir))
 
 	server.RegisterCompletionProvider(completion.NewServiceCompletionProvider(server))
 	server.RegisterCompletionProvider(completion.NewTwigCompletionProvider(projectRoot, server))
@@ -76,6 +78,7 @@ func main() {
 	server.RegisterCompletionProvider(completion.NewThemeCompletionProvider(server))
 	server.RegisterCompletionProvider(completion.NewAdminComponentCompletionProvider(server))
 	server.RegisterCompletionProvider(completion.NewRepositoryCompletionProvider(server))
+	server.RegisterCompletionProvider(completion.NewModuleCompletionProvider(server))
 
 	server.RegisterDefinitionProvider(definition.NewServiceXMLDefinitionProvider(server))
 	server.RegisterDefinitionProvider(definition.NewTwigDefinitionProvider(projectRoot, server))
