@@ -65,6 +65,14 @@
       {
         "command": "shopware.createSnippetFromSelection",
         "title": "Shopware: Create Snippet from Selection"
+      },
+      {
+        "command": "shopware.generateAdminComponent",
+        "title": "Shopware: Generate Admin Component"
+      },
+      {
+        "command": "shopware.generateConfigXml",
+        "title": "Shopware: Generate Config XML"
       }
     ],
     "menus": {

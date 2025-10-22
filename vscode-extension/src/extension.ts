@@ -416,6 +416,113 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       vscode.window.showErrorMessage(`Error creating snippet from selection: ${error}`);
     }
   }));
+
+  // Register generate admin component command
+  context.subscriptions.push(vscode.commands.registerCommand('shopware.generateAdminComponent', async () => {
+    if (!client) {
+      vscode.window.showErrorMessage('Shopware LSP is not running');
+      return;
+    }
+
+    const name = await vscode.window.showInputBox({
+      prompt: 'Component name (e.g., sw-custom-button)',
+      placeHolder: 'sw-custom-button',
+      validateInput: (value: string) => {
+        if (!value || value.trim() === '') {
+          return 'Component name cannot be empty';
+        }
+        if (!value.startsWith('sw-')) {
+          return 'Component name should start with "sw-"';
+        }
+        return null;
+      }
+    });
+
+    if (!name) {
+      return;
+    }
+
+    const location = await vscode.window.showInputBox({
+      prompt: 'Component location',
+      value: `src/Administration/Resources/app/administration/src/component/${name}/index.js`
+    });
+
+    if (!location) {
+      return;
+    }
+
+    try {
+      const result: {uri: string, line: number} | {code: string, message: string} = await client.sendRequest('workspace/executeCommand', {
+        command: 'shopware/generate/adminComponent',
+        arguments: [{ name, location }]
+      });
+
+      if ('code' in result) {
+        vscode.window.showErrorMessage(`Error: ${result.message}`);
+        return;
+      }
+
+      if ('uri' in result) {
+        const document = await vscode.workspace.openTextDocument(vscode.Uri.parse(result.uri));
+        await vscode.window.showTextDocument(document);
+        vscode.window.showInformationMessage(`Component ${name} created successfully`);
+      }
+    } catch (error) {
+      vscode.window.showErrorMessage(`Error generating component: ${error}`);
+    }
+  }));
+
+  // Register generate config.xml command
+  context.subscriptions.push(vscode.commands.registerCommand('shopware.generateConfigXml', async () => {
+    if (!client) {
+      vscode.window.showErrorMessage('Shopware LSP is not running');
+      return;
+    }
+
+    const pluginName = await vscode.window.showInputBox({
+      prompt: 'Plugin name',
+      placeHolder: 'MyPlugin',
+      validateInput: (value: string) => {
+        if (!value || value.trim() === '') {
+          return 'Plugin name cannot be empty';
+        }
+        return null;
+      }
+    });
+
+    if (!pluginName) {
+      return;
+    }
+
+    const location = await vscode.window.showInputBox({
+      prompt: 'Config file location',
+      value: 'src/Resources/config/config.xml'
+    });
+
+    if (!location) {
+      return;
+    }
+
+    try {
+      const result: {uri: string, line: number} | {code: string, message: string} = await client.sendRequest('workspace/executeCommand', {
+        command: 'shopware/generate/configXml',
+        arguments: [{ pluginName, location }]
+      });
+
+      if ('code' in result) {
+        vscode.window.showErrorMessage(`Error: ${result.message}`);
+        return;
+      }
+
+      if ('uri' in result) {
+        const document = await vscode.workspace.openTextDocument(vscode.Uri.parse(result.uri));
+        await vscode.window.showTextDocument(document);
+        vscode.window.showInformationMessage(`Config XML created successfully`);
+      }
+    } catch (error) {
+      vscode.window.showErrorMessage(`Error generating config: ${error}`);
+    }
+  }));
 }
 
 export function deactivate(): Thenable<void> | undefined {

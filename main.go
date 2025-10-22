@@ -9,6 +9,7 @@ import (
 	"github.com/shopware/shopware-lsp/internal/entity"
 	"github.com/shopware/shopware-lsp/internal/extension"
 	"github.com/shopware/shopware-lsp/internal/feature"
+	"github.com/shopware/shopware-lsp/internal/generator"
 	"github.com/shopware/shopware-lsp/internal/indexer"
 	"github.com/shopware/shopware-lsp/internal/lsp"
 	"github.com/shopware/shopware-lsp/internal/lsp/codeaction"
@@ -107,6 +108,7 @@ func main() {
 	server.RegisterCommandProvider(snippet.NewSnippetCommandProvider(server))
 	server.RegisterCommandProvider(extension.NewExtensionCommandProvider(server))
 	server.RegisterCommandProvider(twig.NewTwigCommandProvider(server))
+	server.RegisterCommandProvider(generator.NewCommandProvider(projectRoot))
 
 	if err := server.Start(os.Stdin, os.Stdout); err != nil {
 		log.Fatalf("LSP server error: %v", err)
