@@ -1,0 +1,40 @@
+{
+  "Shopware Component Register": {
+    "prefix": "sw-component",
+    "body": [
+      "Component.register('${1:component-name}', {",
+      "\tprops: {",
+      "\t\t${2:// Component props}",
+      "\t},",
+      "",
+      "\tcomputed: {",
+      "\t\t${3:// Computed properties}",
+      "\t},",
+      "",
+      "\tmethods: {",
+      "\t\t${4:// Component methods}",
+      "\t}",
+      "});"
+    ],
+    "description": "Create a Shopware Admin Component registration"
+  },
+  "Shopware Component Extend": {
+    "prefix": "sw-extend",
+    "body": [
+      "Component.extend('${1:new-component-name}', '${2:parent-component}', {",
+      "\tprops: {",
+      "\t\t${3:// Additional props}",
+      "\t},",
+      "",
+      "\tcomputed: {",
+      "\t\t${4:// Additional computed properties}",
+      "\t},",
+      "",
+      "\tmethods: {",
+      "\t\t${5:// Additional or override methods}",
+      "\t}",
+      "});"
+    ],
+    "description": "Extend a Shopware Admin Component"
+  }
+}

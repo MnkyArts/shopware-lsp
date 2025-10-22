@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/shopware/shopware-lsp/internal/admin"
 	"github.com/shopware/shopware-lsp/internal/extension"
 	"github.com/shopware/shopware-lsp/internal/feature"
 	"github.com/shopware/shopware-lsp/internal/indexer"
@@ -61,6 +62,7 @@ func main() {
 	server.RegisterIndexer(systemconfig.NewSystemConfigIndexer(cacheDir))
 	server.RegisterIndexer(theme.NewThemeConfigIndexer(cacheDir))
 	server.RegisterIndexer(extension.NewExtensionIndexer(cacheDir))
+	server.RegisterIndexer(admin.NewComponentIndexer(cacheDir))
 
 	server.RegisterCompletionProvider(completion.NewServiceCompletionProvider(server))
 	server.RegisterCompletionProvider(completion.NewTwigCompletionProvider(projectRoot, server))
@@ -69,6 +71,7 @@ func main() {
 	server.RegisterCompletionProvider(completion.NewFeatureCompletionProvider(server))
 	server.RegisterCompletionProvider(completion.NewSystemConfigCompletion(server))
 	server.RegisterCompletionProvider(completion.NewThemeCompletionProvider(server))
+	server.RegisterCompletionProvider(completion.NewAdminComponentCompletionProvider(server))
 
 	server.RegisterDefinitionProvider(definition.NewServiceXMLDefinitionProvider(server))
 	server.RegisterDefinitionProvider(definition.NewTwigDefinitionProvider(projectRoot, server))
@@ -77,6 +80,7 @@ func main() {
 	server.RegisterDefinitionProvider(definition.NewFeatureDefinitionProvider(server))
 	server.RegisterDefinitionProvider(definition.NewSystemConfigDefinitionProvider(server))
 	server.RegisterDefinitionProvider(definition.NewThemeDefinitionProvider(server))
+	server.RegisterDefinitionProvider(definition.NewAdminComponentDefinitionProvider(server))
 
 	server.RegisterCodeLensProvider(codelens.NewPHPCodeLensProvider(server))
 	server.RegisterCodeLensProvider(codelens.NewTwigCodeLensProvider(server))
@@ -89,6 +93,7 @@ func main() {
 	// Register hover providers
 	server.RegisterHoverProvider(hover.NewTwigHoverProvider(projectRoot, server))
 	server.RegisterHoverProvider(hover.NewSnippetHoverProvider(projectRoot, server))
+	server.RegisterHoverProvider(hover.NewAdminComponentHoverProvider(server))
 
 	// Register code action providers
 	server.RegisterCodeActionProvider(codeaction.NewSnippetCodeActionProvider(server))

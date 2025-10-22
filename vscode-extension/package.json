@@ -26,7 +26,8 @@
     "onLanguage:xml",
     "onLanguage:twig",
     "onLanguage:yaml",
-    "onLanguage:scss"
+    "onLanguage:scss",
+    "onLanguage:javascript"
   ],
   "repository": {
     "type": "git",
@@ -79,7 +80,13 @@
           "group": "shopware"
         }
       ]
-    }
+    },
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript.json"
+      }
+    ]
   },
   "scripts": {
     "compile": "npm run check-types && node esbuild.js",
