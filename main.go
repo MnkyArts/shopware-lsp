@@ -5,8 +5,11 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/shopware/shopware-lsp/internal/admin"
+	"github.com/shopware/shopware-lsp/internal/entity"
 	"github.com/shopware/shopware-lsp/internal/extension"
 	"github.com/shopware/shopware-lsp/internal/feature"
+	"github.com/shopware/shopware-lsp/internal/generator"
 	"github.com/shopware/shopware-lsp/internal/indexer"
 	"github.com/shopware/shopware-lsp/internal/lsp"
 	"github.com/shopware/shopware-lsp/internal/lsp/codeaction"
@@ -16,6 +19,7 @@ import (
 	"github.com/shopware/shopware-lsp/internal/lsp/diagnostics"
 	"github.com/shopware/shopware-lsp/internal/lsp/hover"
 	"github.com/shopware/shopware-lsp/internal/lsp/reference"
+	"github.com/shopware/shopware-lsp/internal/module"
 	"github.com/shopware/shopware-lsp/internal/php"
 	"github.com/shopware/shopware-lsp/internal/snippet"
 	"github.com/shopware/shopware-lsp/internal/symfony"
@@ -61,6 +65,9 @@ func main() {
 	server.RegisterIndexer(systemconfig.NewSystemConfigIndexer(cacheDir))
 	server.RegisterIndexer(theme.NewThemeConfigIndexer(cacheDir))
 	server.RegisterIndexer(extension.NewExtensionIndexer(cacheDir))
+	server.RegisterIndexer(admin.NewComponentIndexer(cacheDir))
+	server.RegisterIndexer(entity.NewEntityIndexer(cacheDir))
+	server.RegisterIndexer(module.NewModuleIndexer(cacheDir))
 
 	server.RegisterCompletionProvider(completion.NewServiceCompletionProvider(server))
 	server.RegisterCompletionProvider(completion.NewTwigCompletionProvider(projectRoot, server))
@@ -69,6 +76,9 @@ func main() {
 	server.RegisterCompletionProvider(completion.NewFeatureCompletionProvider(server))
 	server.RegisterCompletionProvider(completion.NewSystemConfigCompletion(server))
 	server.RegisterCompletionProvider(completion.NewThemeCompletionProvider(server))
+	server.RegisterCompletionProvider(completion.NewAdminComponentCompletionProvider(server))
+	server.RegisterCompletionProvider(completion.NewRepositoryCompletionProvider(server))
+	server.RegisterCompletionProvider(completion.NewModuleCompletionProvider(server))
 
 	server.RegisterDefinitionProvider(definition.NewServiceXMLDefinitionProvider(server))
 	server.RegisterDefinitionProvider(definition.NewTwigDefinitionProvider(projectRoot, server))
@@ -77,6 +87,8 @@ func main() {
 	server.RegisterDefinitionProvider(definition.NewFeatureDefinitionProvider(server))
 	server.RegisterDefinitionProvider(definition.NewSystemConfigDefinitionProvider(server))
 	server.RegisterDefinitionProvider(definition.NewThemeDefinitionProvider(server))
+	server.RegisterDefinitionProvider(definition.NewAdminComponentDefinitionProvider(server))
+	server.RegisterDefinitionProvider(definition.NewEntityDefinitionProvider(server))
 
 	server.RegisterCodeLensProvider(codelens.NewPHPCodeLensProvider(server))
 	server.RegisterCodeLensProvider(codelens.NewTwigCodeLensProvider(server))
@@ -89,6 +101,8 @@ func main() {
 	// Register hover providers
 	server.RegisterHoverProvider(hover.NewTwigHoverProvider(projectRoot, server))
 	server.RegisterHoverProvider(hover.NewSnippetHoverProvider(projectRoot, server))
+	server.RegisterHoverProvider(hover.NewAdminComponentHoverProvider(server))
+	server.RegisterHoverProvider(hover.NewEntityHoverProvider(server))
 
 	// Register code action providers
 	server.RegisterCodeActionProvider(codeaction.NewSnippetCodeActionProvider(server))
@@ -97,6 +111,7 @@ func main() {
 	server.RegisterCommandProvider(snippet.NewSnippetCommandProvider(server))
 	server.RegisterCommandProvider(extension.NewExtensionCommandProvider(server))
 	server.RegisterCommandProvider(twig.NewTwigCommandProvider(server))
+	server.RegisterCommandProvider(generator.NewCommandProvider(projectRoot))
 
 	if err := server.Start(os.Stdin, os.Stdout); err != nil {
 		log.Fatalf("LSP server error: %v", err)

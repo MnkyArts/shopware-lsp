@@ -41,6 +41,37 @@ A Language Server Protocol (LSP) implementation for Shopware development.
 - Go-to-definition for feature flags
 - Feature flag completion in PHP files
 
+### Admin Component Support (NEW - Phase 1)
+- JavaScript/Vue component parsing and indexing
+- Auto-completion for admin component names
+- Go-to-definition for component references
+- Hover information showing component props and computed properties
+- Support for both `Component.register()` and `Component.extend()` patterns
+- Code snippets for rapid component creation (`sw-component`, `sw-extend`)
+
+### Entity/Repository Support (NEW - Phase 2)
+- EntityDefinition class parsing and indexing
+- Auto-completion for entity names in `repositoryFactory.create()` calls
+- Go-to-definition for entity references (works in both JavaScript and PHP)
+- Hover information showing entity details
+- Snake_case conversion fallback for entity names
+
+### Code Actions (NEW - Phase 3)
+- "Extend this block" action for Twig templates
+- Auto-creates file structure for block extensions
+- Generates proper `{% sw_extends %}` syntax
+
+### Code Generation (NEW - Phase 4)
+- **Generate Admin Component**: Creates component boilerplate with `Component.register()` template
+- **Generate Config XML**: Creates plugin configuration file with schema
+- Commands accessible via VSCode Command Palette
+- Input validation and auto-completion for file paths
+
+### Module Registration Support (NEW - Phase 5)
+- Module.register() parsing and indexing
+- Snippet key completion in module labels and navigation
+- Context-aware activation in Module.register() calls
+
 ### Diagnostics
 - Snippet validation in Twig templates
 - Theme icon validation in Twig templates (checks if referenced icons exist)
