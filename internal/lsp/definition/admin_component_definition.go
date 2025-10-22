@@ -36,7 +36,7 @@ func (p *AdminComponentDefinitionProvider) GetDefinition(ctx context.Context, pa
 	}
 
 	ext := strings.ToLower(filepath.Ext(params.TextDocument.URI))
-	
+
 	// Only provide definitions in JavaScript files within administration directories
 	if ext != ".js" || !strings.Contains(params.TextDocument.URI, "/administration/") {
 		return []protocol.Location{}

@@ -24,7 +24,7 @@ func TestParseComponentFile(t *testing.T) {
 
 		component, ok := components["sw-test-button"]
 		require.True(t, ok)
-		
+
 		assert.Equal(t, "sw-test-button", component.Name)
 		assert.Equal(t, "testdata/sw-test-button.js", component.File)
 		assert.Greater(t, component.Line, 0)

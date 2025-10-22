@@ -34,10 +34,10 @@ func (ci *ComponentIndexer) ID() string {
 func (ci *ComponentIndexer) Index(path string, node *tree_sitter.Node, fileContent []byte) error {
 	// Only index files in admin component directories
 	// Typical paths: src/Administration/Resources/app/administration/src/
-	if !strings.Contains(path, "/administration/src/") || 
-	   !strings.HasSuffix(path, ".js") ||
-	   strings.Contains(path, "/_fixtures/") ||
-	   strings.Contains(path, "/node_modules/") {
+	if !strings.Contains(path, "/administration/src/") ||
+		!strings.HasSuffix(path, ".js") ||
+		strings.Contains(path, "/_fixtures/") ||
+		strings.Contains(path, "/node_modules/") {
 		return nil
 	}
 

@@ -34,7 +34,7 @@ func (p *AdminComponentCompletionProvider) GetCompletions(ctx context.Context, p
 	}
 
 	ext := strings.ToLower(filepath.Ext(params.TextDocument.URI))
-	
+
 	// Only provide completions in JavaScript files within administration directories
 	if ext != ".js" || !strings.Contains(params.TextDocument.URI, "/administration/") {
 		return []protocol.CompletionItem{}

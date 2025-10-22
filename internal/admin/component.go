@@ -23,7 +23,7 @@ func parseComponentFile(root *tree_sitter.Node, document []byte, filePath string
 	// We need to find call expressions that match:
 	// Component.register('component-name', { ... })
 	// or Component.extend('component-name', 'parent', { ... })
-	
+
 	var visitor func(*tree_sitter.Node)
 	visitor = func(node *tree_sitter.Node) {
 		// Check if this is a call expression
